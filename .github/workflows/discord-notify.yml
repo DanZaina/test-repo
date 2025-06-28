@@ -1,0 +1,46 @@
+name: Discord Changelog Notification
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send Discord notification
+      run: |
+        curl -H "Content-Type: application/json" \
+        -d '{
+          "username": "ChangelogBot",
+          "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+          "embeds": [{
+            "title": "📝 New Commit",
+            "description": "**${{ github.event.head_commit.message }}**",
+            "color": 5814783,
+            "fields": [
+              {
+                "name": "Repository",
+                "value": "${{ github.repository }}",
+                "inline": true
+              },
+              {
+                "name": "Branch",
+                "value": "${{ github.ref_name }}",
+                "inline": true
+              },
+              {
+                "name": "Author",
+                "value": "${{ github.actor }}",
+                "inline": true
+              }
+            ],
+            "timestamp": "${{ github.event.head_commit.timestamp }}",
+            "footer": {
+              "text": "GitHub",
+              "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            },
+            "url": "${{ github.event.head_commit.url }}"
+          }]
+        }' \
+        ${{ secrets.DISCORD_WEBHOOK }}
