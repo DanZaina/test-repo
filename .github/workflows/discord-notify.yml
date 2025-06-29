@@ -13,9 +13,9 @@ jobs:
       - name: Send Discord Notification (Channel 1)
         uses: sarisia/actions-status-discord@v1
         with:
-          webhook: WebhookUrl
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
-          content: "✌️ New update from Nova! ✌️"
+          content: "✌️ New update from Nova!"
           title: ""
           description: ${{ github.event.head_commit.message }}
           color: 0x7289DA
