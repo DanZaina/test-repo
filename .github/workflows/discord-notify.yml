@@ -1,19 +1,23 @@
-name: Discord Changelog Notification
+name: Discord Notification
+
 on:
+  merge_group:
+    branches: ["main"]
   push:
     branches: ["main"]
+
 jobs:
   discord-notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Discord Notification
+      - name: Send Discord Notification (Channel 1)
         uses: sarisia/actions-status-discord@v1
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook: WebhookUrl
           nodetail: true
-          content: ":pencil: **New Commit**"
+          content: "✌️ New update from Nova! ✌️"
           title: ""
           description: ${{ github.event.head_commit.message }}
           color: 0x7289DA
           username: Nova Updates
-          footer: ":pencil: Changelog :pencil:"
+          footer: "Nova"
